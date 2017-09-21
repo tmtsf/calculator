@@ -49,6 +49,26 @@ namespace Calculator
         return m_LeftNode->calculate() * m_RightNode->calculate();
       }
     };
+
+    struct AssignmentNode : public BinaryNode
+    {
+      AssignmentNode( const node_ptr_t& leftNode,
+                      const node_ptr_t& rightNode ) :
+        BinaryNode( leftNode, rightNode )
+      {
+        if (!leftNode->isLValue())
+          throw("Cannot assign value to variable that is not an lvalue!");
+      }
+      virtual ~AssignmentNode( void )
+      { }
+    public:
+      virtual double calculate( void ) const override
+      {
+        double value = m_RightNode->calculate();
+        m_LeftNode->assign( value );
+        return value;
+      }
+    };
   }
 
   node_ptr_t ASTNode::formSummationNode( const node_ptr_t& leftNode,
@@ -61,5 +81,11 @@ namespace Calculator
                                               const node_ptr_t& rightNode )
   {
     return std::make_shared<MultiplicationNode>( leftNode, rightNode );
+  }
+
+  node_ptr_t ASTNode::formAssignmentNode( const node_ptr_t& leftNode,
+                                          const node_ptr_t& rightNode )
+  {
+    return std::make_shared<AssignmentNode>( leftNode, rightNode );
   }
 }
