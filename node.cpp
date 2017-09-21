@@ -18,4 +18,10 @@ namespace Calculator
     // no-op for most types of AST node
     // only implemented for the variable node
   }
+
+
+  RealNumberIfAny::RealNumberIfAny( void ) :
+    m_HasValue( false ),
+    m_Value( std::numeric_limits<double>::quiet_NaN() )
+  { }
 }

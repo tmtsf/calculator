@@ -33,10 +33,7 @@ namespace Calculator
 
   struct RealNumberIfAny
   {
-    RealNumberIfAny( void ) :
-      m_HasValue( false ),
-      m_Value( std::numeric_limits<double>::quiet_NaN() )
-    { }
+    RealNumberIfAny( void );
 
     bool m_HasValue;
     double m_Value;
