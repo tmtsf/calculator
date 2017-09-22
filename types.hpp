@@ -8,6 +8,8 @@
 #include <string>
 #include <limits>
 #include <cctype>
+#include <sstream>
+#include <cstdlib>
 
 namespace Calculator
 {

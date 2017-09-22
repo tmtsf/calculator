@@ -20,18 +20,22 @@ namespace Calculator
       IDENTIFIER
     };
   public:
-    Scanner( const std::string& buffer );
+    explicit Scanner( std::istream& in );
     Token token( void ) const;
     double value( void ) const;
+    bool isDone( void ) const;
+    bool isEmpty( void ) const;
 
     void accept( void );
   private:
-    void skipWhiteSpace( void );
+    void readNextCharacter( void );
 
-    const std::string& m_Buffer;
-    std::size_t m_Index;
+    std::istream& m_In;
+    char m_Next;
+    bool m_IsEmpty;
     Token m_Token;
     double m_Value;
+    std::string m_VariableName;
   };
 }
 

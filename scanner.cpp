@@ -2,14 +2,14 @@
 
 namespace Calculator
 {
-  Scanner::Scanner( const std::string& buffer ) :
-    m_Buffer( buffer ),
-    m_Index( 0 )
+  Scanner::Scanner( std::istream& in ) :
+    m_In( in )
   {
     accept();
+    m_IsEmpty = (m_Token == Token::END);
   }
 
-  Token Scanner::token( void ) const
+  Scanner::Token Scanner::token( void ) const
   {
     return m_Token;
   }
@@ -19,25 +19,34 @@ namespace Calculator
     return m_Value;
   }
 
-  void Scanner::skipWhiteSpace( void )
+  bool Scanner::isDone( void ) const
   {
-    while ( std::isspace( m_Buffer[m_Index] ) )
-      ++m_Index;
+    return m_Token == Token::END;
+  }
+
+  bool Scanner::isEmpty( void ) const
+  {
+    return m_IsEmpty;
+  }
+
+  void Scanner::readNextCharacter( void )
+  {
+    m_Next = m_In.get();
+    while ( m_Next == ' ' || m_Next == '\t' )
+      m_Next = m_In.get();
   }
 
   void Scanner::accept( void )
   {
-    skipWhiteSpace();
+    readNextCharacter();
 
-    switch ( m_Buffer[m_Index] )
+    switch ( m_Next )
     {
       case '+':
         m_Token = Token::PLUS;
-        ++m_Index;
         break;
       case '*':
         m_Token = Token::MULTIPLY;
-        ++m_Index;
         break;
       case '0':
       case '1':
@@ -51,7 +60,31 @@ namespace Calculator
       case '9':
       case '.':
         m_Token = Token::NUMBER;
-        m_Value = std::stod( m_Buffer, m_Index );
+        m_In.putback( m_Next );
+        m_In >> m_Value;
+        break;
+      case '\n':
+      case '\r':
+      case EOF:
+        m_Token = Token::END;
+        break;
+      default:
+        if ( isalpha( m_Next ) || m_Next == '_' )
+        {
+          m_Token = Token::IDENTIFIER;
+          m_VariableName.erase();
+          do
+          {
+            m_VariableName += m_Next;
+            m_Next = m_In.get();
+          } while ( isalnum( m_Next ) );
+          m_In.putback( m_Next );
+        }
+        else
+        {
+          m_Token = Token::ERROR;
+        }
+        break;
     }
   }
 
