@@ -25,5 +25,12 @@ int main()
   for (const auto& item : varMap)
     std::cout << item.first << "\t" << item.second.m_Value << std::endl;
 
+  node_ptr_t nodeThree = ASTNode::formConstantNode( 3 );
+  node_ptr_t nodeMultiSum = ASTNode::formMultipleMultiplicationNode( nodeFunc );
+  nodeMultiSum->addChildNode( nodeTwo, false );
+  nodeMultiSum->addChildNode( nodeThree, true );
+
+  std::cout << nodeMultiSum->calculate() << std::endl;
+
   return 0;
 }
