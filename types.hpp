@@ -7,6 +7,7 @@
 #include <cmath>
 #include <string>
 #include <limits>
+#include <cctype>
 
 namespace Calculator
 {
