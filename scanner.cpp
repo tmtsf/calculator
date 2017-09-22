@@ -45,8 +45,14 @@ namespace Calculator
       case '+':
         m_Token = Token::PLUS;
         break;
+      case '-':
+        m_Token = Token::MINUS;
+        break;
       case '*':
         m_Token = Token::MULTIPLY;
+        break;
+      case '/':
+        m_Token = Token::DIVIDE;
         break;
       case '0':
       case '1':

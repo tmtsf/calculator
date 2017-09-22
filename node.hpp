@@ -14,6 +14,8 @@ namespace Calculator
   public:
     virtual bool isLValue( void ) const;
     virtual void assign( double value );
+    virtual void addChildNode( const node_ptr_t& newChild,
+                               bool weight );
   public:
     static node_ptr_t formConstantNode( double number );
     static node_ptr_t formVariableNode( const std::string& identifier,
@@ -29,6 +31,9 @@ namespace Calculator
                                               const node_ptr_t& rightNode );
     static node_ptr_t formAssignmentNode( const node_ptr_t& leftNode,
                                           const node_ptr_t& rightNode );
+
+    static node_ptr_t formMultipleSummationNode( const node_ptr_t& child );
+    static node_ptr_t formMultipleMultiplicationNode( const node_ptr_t& child );
   };
 
   struct RealNumberIfAny

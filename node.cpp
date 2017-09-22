@@ -19,6 +19,10 @@ namespace Calculator
     // only implemented for the variable node
   }
 
+  void ASTNode::addChildNode( const node_ptr_t& newChild,
+                              bool weight )
+  { }
+
 
   RealNumberIfAny::RealNumberIfAny( void ) :
     m_HasValue( false ),
