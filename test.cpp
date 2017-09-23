@@ -1,36 +1,56 @@
-#include <iostream>
-#include "node.hpp"
+#include "parser.hpp"
+#include "functions.hpp"
+#include "constants.hpp"
 
 int main()
 {
   using namespace Calculator;
 
-  node_ptr_t nodeOne = ASTNode::formConstantNode( 3.14159265358979 / 2 );
-  node_ptr_t nodeNeg = ASTNode::formNegationNode( nodeOne );
-  node_ptr_t nodeFunc = ASTNode::formFunctionNode( nodeNeg, std::sin );
+  // node_ptr_t nodeOne = ASTNode::formConstantNode( 3.14159265358979 / 2 );
+  // node_ptr_t nodeNeg = ASTNode::formNegationNode( nodeOne );
+  // node_ptr_t nodeFunc = ASTNode::formFunctionNode( nodeNeg, std::sin );
 
-  std::cout << nodeFunc->calculate() << std::endl;
+  // std::cout << nodeFunc->calculate() << std::endl;
 
-  node_ptr_t nodeTwo = ASTNode::formConstantNode( 5. );
-  node_ptr_t nodeSum = ASTNode::formSummationNode( nodeFunc, nodeTwo );
+  // node_ptr_t nodeTwo = ASTNode::formConstantNode( 5. );
+  // node_ptr_t nodeSum = ASTNode::formSummationNode( nodeFunc, nodeTwo );
 
-  std::cout << nodeSum->calculate() << std::endl;
+  // std::cout << nodeSum->calculate() << std::endl;
 
-  var_map_t varMap;
-  node_ptr_t nodeVar = ASTNode::formVariableNode( "simpleVariable", varMap );
-  node_ptr_t nodeAssign = ASTNode::formAssignmentNode( nodeVar, nodeSum );
+  // var_map_t varMap;
+  // node_ptr_t nodeVar = ASTNode::formVariableNode( "simpleVariable", varMap );
+  // node_ptr_t nodeAssign = ASTNode::formAssignmentNode( nodeVar, nodeSum );
 
-  std::cout << nodeAssign->calculate() << std::endl;
+  // std::cout << nodeAssign->calculate() << std::endl;
 
-  for (const auto& item : varMap)
-    std::cout << item.first << "\t" << item.second.m_Value << std::endl;
+  // node_ptr_t nodeThree = ASTNode::formConstantNode( 3 );
+  // node_ptr_t nodeMultiSum = ASTNode::formMultipleMultiplicationNode( nodeFunc );
+  // nodeMultiSum->addChildNode( nodeTwo, false );
+  // nodeMultiSum->addChildNode( nodeThree, true );
+  // std::cout << nodeMultiSum->calculate() << std::endl;
 
-  node_ptr_t nodeThree = ASTNode::formConstantNode( 3 );
-  node_ptr_t nodeMultiSum = ASTNode::formMultipleMultiplicationNode( nodeFunc );
-  nodeMultiSum->addChildNode( nodeTwo, false );
-  nodeMultiSum->addChildNode( nodeThree, true );
+  try
+  {
+    std::istringstream in("sin( 2 / 3)");
+    Scanner scanner( in );
 
-  std::cout << nodeMultiSum->calculate() << std::endl;
+    func_map_t funcMap = getFunctionTable();
+
+    var_map_t varMap;
+    addConstantsToVariableMap( "e", std::exp(1.), varMap );
+    addConstantsToVariableMap( "pi", 3.14159265358979, varMap );
+
+    for (const auto& item : varMap)
+      std::cout << item.first << "\t" << item.second.m_Value << std::endl;
+
+    Parser parser( scanner, varMap, funcMap );
+    parser.parse();
+    std::cout << parser.calculate() << std::endl;
+  }
+  catch ( const std::string& message )
+  {
+    std::cout << message << std::endl;
+  }
 
   return 0;
 }

@@ -39,6 +39,7 @@ namespace Calculator
   struct RealNumberIfAny
   {
     RealNumberIfAny( void );
+    RealNumberIfAny( double value );
 
     bool m_HasValue;
     double m_Value;

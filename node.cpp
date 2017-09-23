@@ -28,4 +28,9 @@ namespace Calculator
     m_HasValue( false ),
     m_Value( std::numeric_limits<double>::quiet_NaN() )
   { }
+
+  RealNumberIfAny::RealNumberIfAny( double value ) :
+    m_HasValue( true ),
+    m_Value( value )
+  { }
 }

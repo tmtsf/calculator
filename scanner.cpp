@@ -29,6 +29,18 @@ namespace Calculator
     return m_IsEmpty;
   }
 
+  const std::string& Scanner::getID( void ) const
+  {
+    if ( m_Token == Token::IDENTIFIER )
+      return m_ID;
+    else
+    {
+      throw("No variable name can be provided!");
+      static std::string error;
+      return error;
+    }
+  }
+
   void Scanner::readNextCharacter( void )
   {
     m_Next = m_In.get();
@@ -54,6 +66,15 @@ namespace Calculator
       case '/':
         m_Token = Token::DIVIDE;
         break;
+      case '=':
+        m_Token = Token::ASSIGN;
+        break;
+      case '(':
+        m_Token = Token::LEFT_PAREN;
+        break;
+      case ')':
+        m_Token = Token::RIGHT_PAREN;
+        break;
       case '0':
       case '1':
       case '2':
@@ -78,10 +99,10 @@ namespace Calculator
         if ( isalpha( m_Next ) || m_Next == '_' )
         {
           m_Token = Token::IDENTIFIER;
-          m_VariableName.erase();
+          m_ID.erase();
           do
           {
-            m_VariableName += m_Next;
+            m_ID += m_Next;
             m_Next = m_In.get();
           } while ( isalnum( m_Next ) );
           m_In.putback( m_Next );

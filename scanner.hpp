@@ -27,6 +27,7 @@ namespace Calculator
     double value( void ) const;
     bool isDone( void ) const;
     bool isEmpty( void ) const;
+    const std::string& getID( void ) const;
 
     void accept( void );
   private:
@@ -37,7 +38,7 @@ namespace Calculator
     bool m_IsEmpty;
     Token m_Token;
     double m_Value;
-    std::string m_VariableName;
+    std::string m_ID;
   };
 }
 
