@@ -31,7 +31,7 @@ int main()
 
   try
   {
-    std::istringstream in("sin( 2 / 3)");
+    std::istringstream in("sin(x = 2)");
     Scanner scanner( in );
 
     func_map_t funcMap = getFunctionTable();
@@ -40,11 +40,12 @@ int main()
     addConstantsToVariableMap( "e", std::exp(1.), varMap );
     addConstantsToVariableMap( "pi", 3.14159265358979, varMap );
 
+    Parser parser( scanner, varMap, funcMap );
+    parser.parse();
+
     for (const auto& item : varMap)
       std::cout << item.first << "\t" << item.second.m_Value << std::endl;
 
-    Parser parser( scanner, varMap, funcMap );
-    parser.parse();
     std::cout << parser.calculate() << std::endl;
   }
   catch ( const std::string& message )

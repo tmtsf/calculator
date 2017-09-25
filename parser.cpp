@@ -51,10 +51,12 @@ namespace Calculator
     {
       m_Scanner.accept();
       node_ptr_t pRightNode = expression();
+      std::cout << pRightNode->calculate() << std::endl;
 
       if ( pNode->isLValue() )
       {
         pNode = ASTNode::formAssignmentNode( pNode, pRightNode );
+        std::cout << pNode->calculate() << std::endl;
       }
       else
       {
@@ -111,6 +113,7 @@ namespace Calculator
     {
       const std::string& id = m_Scanner.getID();
       m_Scanner.accept();
+      std::cout << m_Scanner.token() << std::endl;
 
       if ( m_Scanner.token() == Scanner::Token::LEFT_PAREN )
       {
