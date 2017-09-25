@@ -31,7 +31,7 @@ int main()
 
   try
   {
-    std::istringstream in("sin(x = 2)");
+    std::istringstream in("sin(x = 3)");
     Scanner scanner( in );
 
     func_map_t funcMap = getFunctionTable();
@@ -42,9 +42,6 @@ int main()
 
     Parser parser( scanner, varMap, funcMap );
     parser.parse();
-
-    for (const auto& item : varMap)
-      std::cout << item.first << "\t" << item.second.m_Value << std::endl;
 
     std::cout << parser.calculate() << std::endl;
   }

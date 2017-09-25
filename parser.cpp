@@ -26,6 +26,8 @@ namespace Calculator
 
   double Parser::calculate( void ) const
   {
+    if (!m_Root)
+      throw("No valid AST formed!");
     return m_Root->calculate();
   }
 
@@ -51,12 +53,10 @@ namespace Calculator
     {
       m_Scanner.accept();
       node_ptr_t pRightNode = expression();
-      std::cout << pRightNode->calculate() << std::endl;
 
       if ( pNode->isLValue() )
       {
         pNode = ASTNode::formAssignmentNode( pNode, pRightNode );
-        std::cout << pNode->calculate() << std::endl;
       }
       else
       {
@@ -99,10 +99,10 @@ namespace Calculator
     {
       m_Scanner.accept();
       pNode = expression();
-      if ( m_Scanner.token() != Scanner::Token::RIGHT_PAREN )
-        m_Status = Status::ERROR;
-      else
+      if ( m_Scanner.token() == Scanner::Token::RIGHT_PAREN )
         m_Scanner.accept();
+      else
+        m_Status = Status::ERROR;
     }
     else if ( token == Scanner::Token::NUMBER )
     {
@@ -113,21 +113,22 @@ namespace Calculator
     {
       const std::string& id = m_Scanner.getID();
       m_Scanner.accept();
-      std::cout << m_Scanner.token() << std::endl;
 
       if ( m_Scanner.token() == Scanner::Token::LEFT_PAREN )
       {
-        m_Scanner.accept();
-        pNode = expression();
-        if ( m_Scanner.token() == Scanner::Token::RIGHT_PAREN )
-          m_Scanner.accept();
-        else
-          m_Status = Status::ERROR;
-
         auto it = m_FuncMap.find( id );
         if ( it != m_FuncMap.cend() )
         {
-          pNode = ASTNode::formFunctionNode( pNode, it->second );
+          real_function_t pFunc = it->second;
+
+          m_Scanner.accept();
+          pNode = expression();
+          if ( m_Scanner.token() == Scanner::Token::RIGHT_PAREN )
+            m_Scanner.accept();
+          else
+            m_Status = Status::ERROR;
+
+          pNode = ASTNode::formFunctionNode( pNode, pFunc );
         }
         else
         {
