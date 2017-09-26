@@ -69,6 +69,21 @@ namespace Calculator
         return value;
       }
     };
+
+    struct PowerNode : public BinaryNode
+    {
+      PowerNode( const node_ptr_t& leftNode,
+                 const node_ptr_t& rightNode ) :
+        BinaryNode( leftNode, rightNode )
+      { }
+      virtual ~PowerNode( void )
+      { }
+    public:
+      virtual double calculate( void ) const override
+      {
+        return std::pow( m_LeftNode->calculate(), m_RightNode->calculate() );
+      }
+    };
   }
 
   node_ptr_t ASTNode::formSummationNode( const node_ptr_t& leftNode,
@@ -87,5 +102,11 @@ namespace Calculator
                                           const node_ptr_t& rightNode )
   {
     return std::make_shared<AssignmentNode>( leftNode, rightNode );
+  }
+
+  node_ptr_t ASTNode::formPowerNode( const node_ptr_t& leftNode,
+                                     const node_ptr_t& rightNode )
+  {
+    return std::make_shared<PowerNode>( leftNode, rightNode );
   }
 }

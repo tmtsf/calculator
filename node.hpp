@@ -31,6 +31,8 @@ namespace Calculator
                                               const node_ptr_t& rightNode );
     static node_ptr_t formAssignmentNode( const node_ptr_t& leftNode,
                                           const node_ptr_t& rightNode );
+    static node_ptr_t formPowerNode( const node_ptr_t& leftNode,
+                                     const node_ptr_t& rightNode );
 
     static node_ptr_t formMultipleSummationNode( const node_ptr_t& child );
     static node_ptr_t formMultipleMultiplicationNode( const node_ptr_t& child );

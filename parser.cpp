@@ -92,6 +92,21 @@ namespace Calculator
 
   node_ptr_t Parser::factor( void )
   {
+    node_ptr_t pNode = simpleFactor();
+    Scanner::Token token = m_Scanner.token();
+
+    if ( token == Scanner::Token::POWER )
+    {
+      m_Scanner.accept();
+      node_ptr_t pNewNode = factor();
+      pNode = ASTNode::formPowerNode( pNode, pNewNode );
+    }
+
+    return pNode;
+  }
+
+  node_ptr_t Parser::simpleFactor( void )
+  {
     node_ptr_t pNode;
     Scanner::Token token = m_Scanner.token();
 

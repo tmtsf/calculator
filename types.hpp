@@ -12,6 +12,7 @@
 #include <cstdlib>
 #include <vector>
 #include <iostream>
+#include <fstream>
 
 namespace Calculator
 {

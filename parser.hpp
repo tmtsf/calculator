@@ -25,6 +25,7 @@ namespace Calculator
     private:
       node_ptr_t expression( void );
       node_ptr_t term( void );
+      node_ptr_t simpleFactor( void );
       node_ptr_t factor( void );
     private:
       Scanner& m_Scanner;

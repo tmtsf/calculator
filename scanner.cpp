@@ -66,6 +66,9 @@ namespace Calculator
       case '/':
         m_Token = Token::DIVIDE;
         break;
+      case '^':
+        m_Token = Token::POWER;
+        break;
       case '=':
         m_Token = Token::ASSIGN;
         break;

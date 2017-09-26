@@ -16,6 +16,7 @@ namespace Calculator
       MINUS,
       MULTIPLY,
       DIVIDE,
+      POWER,
       LEFT_PAREN,
       RIGHT_PAREN,
       ASSIGN,
