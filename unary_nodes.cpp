@@ -17,6 +17,20 @@ namespace Calculator
       node_ptr_t m_Child;
     };
 
+    struct IdentityNode : public UnaryNode
+    {
+      IdentityNode( const node_ptr_t& child ) :
+        UnaryNode( child )
+      { }
+      virtual ~IdentityNode( void )
+      { }
+    public:
+      virtual double calculate( void ) const override
+      {
+        return m_Child->calculate();
+      }
+    };
+
     struct NegationNode : public UnaryNode
     {
       NegationNode( const node_ptr_t& child ) :
@@ -48,6 +62,11 @@ namespace Calculator
     private:
       real_function_t m_Func;
     };
+  }
+
+  node_ptr_t ASTNode::formIdentityNode( const node_ptr_t& child )
+  {
+    return std::make_shared<IdentityNode>( child );
   }
 
   node_ptr_t ASTNode::formNegationNode( const node_ptr_t& child )

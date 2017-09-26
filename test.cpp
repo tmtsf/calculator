@@ -31,7 +31,7 @@ int main()
 
   try
   {
-    std::istringstream in("sin((2 + pi)^3)");
+    std::istringstream in("sin((2 * pi)^3)");
     Scanner scanner( in );
 
     func_map_t funcMap = getFunctionTable();

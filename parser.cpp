@@ -160,6 +160,11 @@ namespace Calculator
       m_Scanner.accept();
       pNode = ASTNode::formNegationNode( factor() );
     }
+    else if ( token == Scanner::Token::PLUS )
+    {
+      m_Scanner.accept();
+      pNode = ASTNode::formIdentityNode( factor() );
+    }
     else
     {
       m_Scanner.accept();
