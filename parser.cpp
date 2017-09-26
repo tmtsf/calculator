@@ -31,6 +31,13 @@ namespace Calculator
     return m_Root->calculate();
   }
 
+  void Parser::print( void ) const
+  {
+    if (!m_Root)
+      throw("No valid AST formed!");
+    return m_Root->print( 0 );
+  }
+
   node_ptr_t Parser::expression( void )
   {
     node_ptr_t pNode = term();

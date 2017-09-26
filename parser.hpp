@@ -22,6 +22,7 @@ namespace Calculator
   
       Status parse( void );
       double calculate( void ) const;
+      void print( void ) const;
     private:
       node_ptr_t expression( void );
       node_ptr_t term( void );

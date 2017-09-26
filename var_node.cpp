@@ -10,7 +10,8 @@ namespace Calculator
       VariableNode( const std::string& identifier,
                     var_map_t& varMap ) :
         m_ID( identifier ),
-        m_VarMap( varMap )
+        m_VarMap( varMap ),
+        m_Desc( "Variable" )
       { }
       virtual ~VariableNode( void )
       { }
@@ -21,6 +22,16 @@ namespace Calculator
           return m_VarMap[m_ID].m_Value;
         else
           throw("The variable " + m_ID + " is not initialized!");
+      }
+      virtual const std::string& description( void ) const
+      {
+        return m_Desc;
+      }
+      virtual void print( int indent ) const
+      {
+        for (int i=0; i<indent; ++i)
+          std::cout << ' ';
+        std::cout << description() << ": " << m_ID << "\t" << calculate() << std::endl;
       }
     public:
       virtual bool isLValue( void ) const override
@@ -36,6 +47,7 @@ namespace Calculator
     private:
       std::string m_ID;
       var_map_t& m_VarMap;
+      std::string m_Desc;
     };
   }
 

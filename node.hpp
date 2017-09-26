@@ -11,6 +11,8 @@ namespace Calculator
     virtual ~ASTNode( void );
   public:
     virtual double calculate( void ) const = 0;
+    virtual const std::string& description( void ) const = 0;
+    virtual void print( int indent ) const = 0;
   public:
     virtual bool isLValue( void ) const;
     virtual void assign( double value );

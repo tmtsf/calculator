@@ -44,6 +44,7 @@ int main()
     parser.parse();
 
     std::cout << parser.calculate() << std::endl;
+    parser.print();
   }
   catch ( const std::string& message )
   {

@@ -7,7 +7,8 @@ namespace Calculator
     struct ConstantNode : public ASTNode
     {
       ConstantNode( double number ) :
-        m_Number( number )
+        m_Number( number ),
+        m_Desc( "Constant" )
       { }
       virtual ~ConstantNode( void )
       { }
@@ -16,8 +17,19 @@ namespace Calculator
       {
         return m_Number;
       }
+      virtual const std::string& description( void ) const
+      {
+        return m_Desc;
+      }
+      virtual void print( int indent ) const
+      {
+        for (int i=0; i<indent; ++i)
+          std::cout << ' ';
+        std::cout << description() << ": " << m_Number << std::endl;
+      }
     private:
       double m_Number;
+      std::string m_Desc;
     };
   }
 

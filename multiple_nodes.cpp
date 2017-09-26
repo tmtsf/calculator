@@ -6,7 +6,9 @@ namespace Calculator
   {
     struct MultipleNode : public ASTNode
     {
-      MultipleNode( const node_ptr_t& child )
+      MultipleNode( const node_ptr_t& child,
+                    const std::string& description ) :
+        m_Desc( description )
       {
         addChildNode( child, true );
       }
@@ -14,21 +16,36 @@ namespace Calculator
       { }
     public:
       virtual double calculate( void ) const = 0;
+    public:
+      virtual const std::string& description( void ) const
+      {
+        return m_Desc;
+      }
       virtual void addChildNode( const node_ptr_t& newChild,
                                  bool weight )
       {
         m_ChildNodes.push_back( newChild );
         m_Weights.push_back( weight );
       }
+      virtual void print( int indent ) const
+      {
+        for (int i=0; i<indent; ++i)
+          std::cout << ' ';
+        std::cout << description() << ": " << std::endl;
+        for ( const auto& node : m_ChildNodes )
+          node->print( indent + 2 );
+      }
     protected:
       node_ptr_coll_t m_ChildNodes;
       boolean_vec_t m_Weights;
+    private:
+      std::string m_Desc;
     };
 
     struct MultipleSummationNode : public MultipleNode
     {
       MultipleSummationNode( const node_ptr_t& child ) :
-        MultipleNode( child )
+        MultipleNode( child, "MultipleSum" )
       { }
       virtual ~MultipleSummationNode( void )
       { }
@@ -52,7 +69,7 @@ namespace Calculator
     struct MultipleMultiplicationNode : public MultipleNode
     {
       MultipleMultiplicationNode( const node_ptr_t& child ) :
-        MultipleNode( child )
+        MultipleNode( child, "MultipleProduct" )
       { }
       virtual ~MultipleMultiplicationNode( void )
       { }

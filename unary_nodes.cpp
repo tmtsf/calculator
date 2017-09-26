@@ -6,21 +6,37 @@ namespace Calculator
   {
     struct UnaryNode : public ASTNode
     {
-      UnaryNode( const node_ptr_t& child ) :
-        m_Child( child )
+      UnaryNode( const node_ptr_t& child,
+                 const std::string& description ) :
+        m_Child( child ),
+        m_Desc( description )
       { }
       virtual ~UnaryNode( void )
       { }
     public:
       virtual double calculate( void ) const = 0;
+    public:
+      virtual const std::string& description( void ) const
+      {
+        return m_Desc;
+      }
+      virtual void print( int indent ) const
+      {
+        for (int i=0; i<indent; ++i)
+          std::cout << ' ';
+        std::cout << description() << ": " << std::endl;
+        m_Child->print( indent + 2 );
+      }
     protected:
       node_ptr_t m_Child;
+    private:
+      std::string m_Desc;
     };
 
     struct IdentityNode : public UnaryNode
     {
       IdentityNode( const node_ptr_t& child ) :
-        UnaryNode( child )
+        UnaryNode( child, "Identity" )
       { }
       virtual ~IdentityNode( void )
       { }
@@ -34,7 +50,7 @@ namespace Calculator
     struct NegationNode : public UnaryNode
     {
       NegationNode( const node_ptr_t& child ) :
-        UnaryNode( child )
+        UnaryNode( child, "UnaryNegation" )
       { }
       virtual ~NegationNode( void )
       { }
@@ -49,7 +65,7 @@ namespace Calculator
     {
       FunctionNode( const node_ptr_t& child,
                     const real_function_t& func ) :
-        UnaryNode( child ),
+        UnaryNode( child, "Functional" ),
         m_Func( func )
       { }
       virtual ~FunctionNode( void )

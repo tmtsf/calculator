@@ -7,24 +7,41 @@ namespace Calculator
     struct BinaryNode : public ASTNode
     {
       BinaryNode( const node_ptr_t& leftNode,
-                  const node_ptr_t& rightNode ) :
+                  const node_ptr_t& rightNode,
+                  const std::string& description ) :
         m_LeftNode( leftNode ),
-        m_RightNode( rightNode )
+        m_RightNode( rightNode ),
+        m_Desc( description )
       { }
       virtual ~BinaryNode( void )
       { }
     public:
       virtual double calculate( void ) const = 0;
+    public:
+      virtual const std::string& description( void ) const
+      {
+        return m_Desc;
+      }
+      virtual void print( int indent ) const
+      {
+        for (int i=0; i<indent; ++i)
+          std::cout << ' ';
+        std::cout << description() << ": " << std::endl;
+        m_LeftNode->print( indent + 2 );
+        m_RightNode->print( indent + 2 );
+      }
     protected:
       node_ptr_t m_LeftNode;
       node_ptr_t m_RightNode;
+    private:
+      std::string m_Desc;
     };
 
     struct SummationNode : public BinaryNode
     {
       SummationNode( const node_ptr_t& leftNode,
                      const node_ptr_t& rightNode ) :
-        BinaryNode( leftNode, rightNode )
+        BinaryNode( leftNode, rightNode, "Sum" )
       { }
       virtual ~SummationNode( void )
       { }
@@ -39,7 +56,7 @@ namespace Calculator
     {
       MultiplicationNode( const node_ptr_t& leftNode,
                           const node_ptr_t& rightNode ) :
-        BinaryNode( leftNode, rightNode )
+        BinaryNode( leftNode, rightNode, "Product" )
       { }
       virtual ~MultiplicationNode( void )
       { }
@@ -54,7 +71,7 @@ namespace Calculator
     {
       AssignmentNode( const node_ptr_t& leftNode,
                       const node_ptr_t& rightNode ) :
-        BinaryNode( leftNode, rightNode )
+        BinaryNode( leftNode, rightNode, "Assignment" )
       {
         if (!leftNode->isLValue())
           throw("Cannot assign value to variable that is not an lvalue!");
@@ -74,7 +91,7 @@ namespace Calculator
     {
       PowerNode( const node_ptr_t& leftNode,
                  const node_ptr_t& rightNode ) :
-        BinaryNode( leftNode, rightNode )
+        BinaryNode( leftNode, rightNode, "Power" )
       { }
       virtual ~PowerNode( void )
       { }
