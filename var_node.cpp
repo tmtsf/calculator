@@ -29,9 +29,10 @@ namespace Calculator
       }
       virtual void print( int indent ) const
       {
+        std::cout << std::endl;
         for (int i=0; i<indent; ++i)
           std::cout << ' ';
-        std::cout << description() << ": " << m_ID << "\t" << calculate() << std::endl;
+        std::cout << description() << ": " << m_ID << "\t" << calculate();
       }
     public:
       virtual bool isLValue( void ) const override

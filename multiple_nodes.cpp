@@ -7,8 +7,10 @@ namespace Calculator
     struct MultipleNode : public ASTNode
     {
       MultipleNode( const node_ptr_t& child,
-                    const std::string& description ) :
-        m_Desc( description )
+                    const std::string& description,
+                    const std::string& inverse ) :
+        m_Desc( description ),
+        m_Inverse( inverse )
       {
         addChildNode( child, true );
       }
@@ -29,23 +31,33 @@ namespace Calculator
       }
       virtual void print( int indent ) const
       {
+        std::cout << std::endl;
         for (int i=0; i<indent; ++i)
           std::cout << ' ';
-        std::cout << description() << ": " << std::endl;
-        for ( const auto& node : m_ChildNodes )
-          node->print( indent + 2 );
+        std::cout << description() << ": ";
+
+        auto it = m_ChildNodes.cbegin();
+        auto jt = m_Weights.cbegin();
+        auto itEnd = m_ChildNodes.cend();
+        for ( ; it != itEnd; ++it, ++jt )
+        {
+          (*it)->print( indent + 2 );
+          if ( ! *jt )
+            std::cout << "    " << m_Inverse;
+        }
       }
     protected:
       node_ptr_coll_t m_ChildNodes;
       boolean_vec_t m_Weights;
     private:
       std::string m_Desc;
+      std::string m_Inverse;
     };
 
     struct MultipleSummationNode : public MultipleNode
     {
       MultipleSummationNode( const node_ptr_t& child ) :
-        MultipleNode( child, "MultipleSum" )
+        MultipleNode( child, "MultipleSum", "Negation" )
       { }
       virtual ~MultipleSummationNode( void )
       { }
@@ -69,7 +81,7 @@ namespace Calculator
     struct MultipleMultiplicationNode : public MultipleNode
     {
       MultipleMultiplicationNode( const node_ptr_t& child ) :
-        MultipleNode( child, "MultipleProduct" )
+        MultipleNode( child, "MultipleProduct", "Inversion" )
       { }
       virtual ~MultipleMultiplicationNode( void )
       { }
