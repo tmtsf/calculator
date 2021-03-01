@@ -65,8 +65,9 @@ namespace Calculator
     struct FunctionNode : public UnaryNode
     {
       FunctionNode( const node_ptr_t& child,
-                    const real_function_t& func ) :
-        UnaryNode( child, "Functional" ),
+                    const real_function_t& func,
+                    const std::string& name ) :
+        UnaryNode( child, "Functional: " + name ),
         m_Func( func )
       { }
       virtual ~FunctionNode( void )
@@ -92,8 +93,9 @@ namespace Calculator
   }
 
   node_ptr_t ASTNode::formFunctionNode( const node_ptr_t& child,
-                                        const real_function_t& func )
+                                        const real_function_t& func,
+                                        const std::string& name )
   {
-    return std::make_shared<FunctionNode>( child, func );
+    return std::make_shared<FunctionNode>( child, func, name );
   }
 }

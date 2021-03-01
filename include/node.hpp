@@ -26,7 +26,8 @@ namespace Calculator
     static node_ptr_t formIdentityNode( const node_ptr_t& child );
     static node_ptr_t formNegationNode( const node_ptr_t& child );
     static node_ptr_t formFunctionNode( const node_ptr_t& child,
-                                        const real_function_t& func );
+                                        const real_function_t& func,
+                                        const std::string& name );
 
     static node_ptr_t formSummationNode( const node_ptr_t& leftNode,
                                          const node_ptr_t& rightNode );

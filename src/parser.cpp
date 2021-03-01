@@ -133,15 +133,14 @@ namespace Calculator
     }
     else if ( token == Scanner::Token::IDENTIFIER )
     {
-      const std::string& id = m_Scanner.getID();
+      std::string id = m_Scanner.getID();
       m_Scanner.accept();
 
       if ( m_Scanner.token() == Scanner::Token::LEFT_PAREN )
       {
-        auto it = m_FuncMap.find( id );
-        if ( it != m_FuncMap.cend() )
+        if (m_FuncMap.count(id))
         {
-          real_function_t pFunc = it->second;
+          real_function_t pFunc = m_FuncMap.at(id);
 
           m_Scanner.accept();
           pNode = expression();
@@ -150,7 +149,7 @@ namespace Calculator
           else
             m_Status = Status::ERROR;
 
-          pNode = ASTNode::formFunctionNode( pNode, pFunc );
+          pNode = ASTNode::formFunctionNode( pNode, pFunc, id );
         }
         else
         {

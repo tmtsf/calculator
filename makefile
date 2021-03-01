@@ -1,7 +1,7 @@
 CXX            := g++
 CXXFLAGS       := -O2 # -pedantic-errors -Wall -Wextra -Werror
-LDFLAGS        := # -lgtest -lpthread
-INCLUDE        := -Iinclude/
+LDFLAGS        := -lgtest -lpthread
+INCLUDE        := -Iinclude/ -I/usr/src/gtest/include
 
 BUILD          := ./build
 OBJ_DIR        := $(BUILD)/objects
@@ -22,7 +22,7 @@ TEST_OBJS      := $(TEST_SRC:%.cpp=$(OBJ_DIR)/%.o)
 
 calculator: build $(MAIN_DIR)/$(TARGET)
 test: build $(TEST_DIR)/$(TEST_TARGET)
-all: beagle test
+all: calculator test
 
 $(OBJ_DIR)/%.o: %.cpp
 	@mkdir -p $(@D)
