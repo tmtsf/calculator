@@ -9,7 +9,8 @@ namespace Calculator
   {
     TEST(test_ast, PrintAST)
     {
-      std::istringstream in("sin((2 * -pi ^ 2 / +4)^3)");
+      std::string s("sin((2 * (-pi) ^ 2 / +4)^3)");
+      std::istringstream in(s);
       Scanner scanner( in );
 
       func_map_t funcMap = getFunctionTable();
@@ -22,12 +23,12 @@ namespace Calculator
       parser.parse();
 
       double result = parser.calculate();
-      double expected = std::sin(-std::pow(3.14159265358979, 6.) / 8.);
+      double expected = std::sin(std::pow(3.14159265358979, 6.) / 8.);
       EXPECT_NEAR(result, expected, 1e-6);
 
       printf("\n************************************************************************************\n");
       printf("The value of the expression is: \n");
-      printf("sin((2 * -pi ^ 2 / +4)^3) = %.9f\n", parser.calculate());
+      printf("%s = %.9f\n", s.c_str(), parser.calculate());
       printf("\n\nThe AST of the expression is: \n");
       parser.print();
       printf("\n\n");
