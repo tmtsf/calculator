@@ -1,11 +1,8 @@
-#ifndef FUNCTIONS_HPP
-#define FUNCTIONS_HPP
+#pragma once
 
-#include "types.hpp"
+#include "fwd_decl.hpp"
 
 namespace Calculator
 {
   const func_map_t& getFunctionTable( void );
 }
-
-#endif

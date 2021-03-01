@@ -1,5 +1,4 @@
-#ifndef PARSER_HPP
-#define PARSER_HPP
+#pragma once
 
 #include "node.hpp"
 #include "scanner.hpp"
@@ -19,7 +18,7 @@ namespace Calculator
               var_map_t& varMap,
               const func_map_t& funcMap );
       ~Parser( void );
-  
+
       Status parse( void );
       double calculate( void ) const;
       void print( void ) const;
@@ -35,6 +34,4 @@ namespace Calculator
       var_map_t& m_VarMap;
       const func_map_t& m_FuncMap;
     };
-  }  
-
-#endif
+  }

@@ -1,5 +1,4 @@
-#ifndef CONSTANTS_HPP
-#define CONSTANTS_HPP
+#pragma once
 
 #include "node.hpp"
 
@@ -9,6 +8,3 @@ namespace Calculator
                                   double value,
                                   var_map_t& varMap );
 }
-
-
-#endif

@@ -1,7 +1,6 @@
-#ifndef NODE_HPP
-#define NODE_HPP
+#pragma once
 
-#include "types.hpp"
+#include "fwd_decl.hpp"
 
 namespace Calculator
 {
@@ -51,5 +50,3 @@ namespace Calculator
     double m_Value;
   };
 }
-
-#endif

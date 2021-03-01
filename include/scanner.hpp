@@ -1,7 +1,6 @@
-#ifndef SCANNER_HPP
-#define SCANNER_HPP
+#pragma once
 
-#include "types.hpp"
+#include "fwd_decl.hpp"
 
 namespace Calculator
 {
@@ -42,5 +41,3 @@ namespace Calculator
     std::string m_ID;
   };
 }
-
-#endif
