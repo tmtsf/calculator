@@ -1,13 +1,13 @@
-CXX            := g++
+CXX            := -c++
 CXXFLAGS       := -O2 # -pedantic-errors -Wall -Wextra -Werror
 LDFLAGS        := -lgtest -lpthread
-INCLUDE        := -Iinclude/ -I/usr/src/gtest/include
+INCLUDE        := -Iinclude/ -IEigen/ -I/usr/src/gtest/include
 
 BUILD          := ./build
 OBJ_DIR        := $(BUILD)/objects
-MAIN_DIR       := $(BUILD)/main
+APP_DIR        := $(BUILD)/apps
 TEST_DIR       := $(BUILD)/tests
-TARGET         := calculator
+TARGET         := program
 TEST_TARGET    := run_tests
 
 MAIN_CPP_NAME  := calculator.cpp
@@ -20,17 +20,17 @@ TEST_SRC_DIR   := test
 TEST_SRC       := $(wildcard $(TEST_SRC_DIR)/*.cpp $(NON_MAIN_SRC))
 TEST_OBJS      := $(TEST_SRC:%.cpp=$(OBJ_DIR)/%.o)
 
-calculator: build $(MAIN_DIR)/$(TARGET)
-test: build $(TEST_DIR)/$(TEST_TARGET)
-all: calculator test
+program: build $(APP_DIR)/$(TARGET)
+test:   build $(TEST_DIR)/$(TEST_TARGET)
+all: program test
 
 $(OBJ_DIR)/%.o: %.cpp
 	@mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) $(INCLUDE) -c $< -o $@ $(LDFLAGS)
 
-$(MAIN_DIR)/$(TARGET): $(OBJS)
+$(APP_DIR)/$(TARGET): $(OBJS)
 	@mkdir -p $(@D)
-	$(CXX) $(CXXFLAGS) -o $(MAIN_DIR)/$(TARGET) $^ $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) -o $(APP_DIR)/$(TARGET) $^ $(LDFLAGS)
 
 $(TEST_DIR)/$(TEST_TARGET): $(TEST_OBJS)
 	@mkdir -p $(@D)
@@ -39,11 +39,11 @@ $(TEST_DIR)/$(TEST_TARGET): $(TEST_OBJS)
 .PHONY: all build clean debug release
 
 build:
-	@mkdir -p $(MAIN_DIR)
+	@mkdir -p $(APP_DIR)
 	@mkdir -p $(OBJ_DIR)
 	@mkdir -p $(TEST_DIR)
 
 clean:
 	-@rm -rvf $(OBJ_DIR)/*
-	-@rm -rvf $(MAIN_DIR)/*
+	-@rm -rvf $(APP_DIR)/*
 	-@rm -rvf $(TEST_DIR)/*
