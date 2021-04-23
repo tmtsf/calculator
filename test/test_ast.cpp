@@ -9,7 +9,7 @@ namespace Calculator
   {
     TEST(test_ast, PrintAST)
     {
-      std::string s("sin((2 * (-pi) ^ 2 / +4)^3)");
+      std::string s("sin((2 * (-pi) ^ 3 / +4)^3)");
       std::istringstream in(s);
       Scanner scanner( in );
 
@@ -23,7 +23,7 @@ namespace Calculator
       parser.parse();
 
       double result = parser.calculate();
-      double expected = std::sin(std::pow(3.14159265358979, 6.) / 8.);
+      double expected = std::sin(std::pow(-3.14159265358979, 9.) / 8.);
       EXPECT_NEAR(result, expected, 1e-6);
 
       printf("\n************************************************************************************\n");
